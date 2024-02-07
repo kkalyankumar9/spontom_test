@@ -2,11 +2,11 @@ const express = require("express");
 const { auth } = require("../middleware/auth");
 
 const { CrudModel } = require("../models/patientModel");
-const crudRoutes = express.Router();
+const patientRoutes = express.Router();
 
-crudRoutes.use(auth);
+patientRoutes.use(auth);
 
-crudRoutes.get("/get", async (req, res) => {
+patientRoutes.get("/get", async (req, res) => {
   try {
     const data = await CrudModel.find({ userID: req.body.userID });
     res.status(200).send(data);
@@ -15,7 +15,7 @@ crudRoutes.get("/get", async (req, res) => {
   }
 });
 
-crudRoutes.post("/create", async (req, res) => {
+patientRoutes.post("/create", async (req, res) => {
   try {
     const data = new CrudModel(req.body);
     await data.save();
@@ -25,7 +25,7 @@ crudRoutes.post("/create", async (req, res) => {
   }
 });
 
-crudRoutes.patch("/update/:id", async (req, res) => {
+patientRoutes.patch("/update/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -40,7 +40,7 @@ crudRoutes.patch("/update/:id", async (req, res) => {
     res.status(400).send({ error: error });
   }
 });
-crudRoutes.delete("/delete/:id", async (req, res) => {
+patientRoutes.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const data = await CrudModel.findOne({ _id: id });
@@ -55,4 +55,4 @@ crudRoutes.delete("/delete/:id", async (req, res) => {
   }
 });
 
-module.exports = { crudRoutes };
+module.exports = { patientRoutes };
